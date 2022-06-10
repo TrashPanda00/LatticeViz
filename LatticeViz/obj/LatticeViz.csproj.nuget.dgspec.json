@@ -1,0 +1,75 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\bogda\\RiderProjects\\LatticeViz\\LatticeViz\\LatticeViz.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\bogda\\RiderProjects\\LatticeViz\\LatticeViz\\LatticeViz.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\bogda\\RiderProjects\\LatticeViz\\LatticeViz\\LatticeViz.csproj",
+        "projectName": "LatticeViz",
+        "projectPath": "C:\\Users\\bogda\\RiderProjects\\LatticeViz\\LatticeViz\\LatticeViz.csproj",
+        "packagesPath": "C:\\Users\\bogda\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bogda\\RiderProjects\\LatticeViz\\LatticeViz\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\bogda\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Syncfusion.Blazor": {
+              "target": "Package",
+              "version": "[20.1.0.59, )"
+            },
+            "Syncfusion.Blazor.Themes": {
+              "target": "Package",
+              "version": "[20.1.0.59, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

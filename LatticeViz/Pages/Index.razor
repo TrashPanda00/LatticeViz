@@ -1,0 +1,123 @@
+﻿@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@using LatticeViz.Model
+@using System.Collections.ObjectModel
+@inject NavigationManager NavigationManager
+@page "/"
+
+<PageTitle>Lattice Visualization</PageTitle>
+
+<h3>Hello,World!</h3>
+<input type="text" @bind="firstBase[1].x" placeholder="X"/>
+<input type="text" @bind="firstBase[1].y" placeholder="Y"/>
+<input type="text" @bind="secondBase[1].x" placeholder="X"/>
+<input type="text" @bind="secondBase[1].y" placeholder="Y"/>
+<input type="button" @onclick="() => basisChangedAsync()"/>
+<input type="button" @onclick="() => basisReduction()"/>
+<div class="control-section" align='center'>
+    <SfChart @ref="chart" id="container" Width="@Width" Height="@Height">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis Minimum="-15" Maximum="15" Interval="1" Title="X" RangePadding="ChartRangePadding.Normal">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorGridLines Width="1" Color="#d4d4d4"/>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="-15" Maximum="15" Interval="1" Title="Y" RangePadding="ChartRangePadding.Normal">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorGridLines Width="1" Color="#d4d4d4"/>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartLegendSettings Visible="true" EnableHighlight="true"></ChartLegendSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@values" Name="Value" XName="x" Width="1"
+                         YName="y" Type="ChartSeriesType.Scatter">
+                <ChartMarker Height="10" Width="10" Shape="ChartShape.Circle">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@origin" Name="Origin" XName="x" Width="1"
+                         YName="y" Type="ChartSeriesType.Scatter" Fill="#8f3131">
+                <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Circle" Fill="#8f3131">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@firstBase" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="#8f3131" >
+                <ChartMarker Visible="false" Height="10" Width="10" IsFilled="true">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@secondBase" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="#8f3131">
+                <ChartMarker Visible="false" Height="10" Width="10" IsFilled="true">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@firstBaseReduced" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="blue" >
+                            <ChartMarker Visible="false" Height="10" Width="10" IsFilled="true">
+                            </ChartMarker>
+                        </ChartSeries>
+                        <ChartSeries DataSource="@secondBaseReduced" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="blue">
+                                        <ChartMarker Visible="false" Height="10" Width="10" IsFilled="true">
+                                        </ChartMarker>
+                                    </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code {
+    public SfChart chart;
+    Lattice lattice;
+    public ObservableCollection<LatticePoint> values = new ObservableCollection<LatticePoint>();
+
+    public List<LatticePoint> origin = new List<LatticePoint>()
+    {
+        new LatticePoint(0, 0)
+    };
+
+    public ObservableCollection<LatticePoint> firstBase = new ObservableCollection<LatticePoint>()
+    {
+        new LatticePoint(0,0),
+        new LatticePoint(0,0)
+    };
+    
+    public ObservableCollection<LatticePoint> secondBase = new ObservableCollection<LatticePoint>()
+    {
+        new LatticePoint(0,0),
+        new LatticePoint(0,0)
+    };
+    
+    public ObservableCollection<LatticePoint> firstBaseReduced = new ObservableCollection<LatticePoint>()
+    {
+        new LatticePoint(0,0),
+        new LatticePoint(0,0)
+    };
+    
+    public ObservableCollection<LatticePoint> secondBaseReduced = new ObservableCollection<LatticePoint>()
+    {
+        new LatticePoint(0,0),
+        new LatticePoint(0,0)
+    };
+    
+    public string Width { get; set; } = "700px";
+    public string Height { get; set; } = "700px";
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Lattice lattice = new Lattice(new LatticePoint(4, 1), new LatticePoint(1, 2));
+        // values = lattice.ReturnLatticePoints();
+    }
+
+    public async Task basisChangedAsync()
+    {
+        lattice = new Lattice(firstBase[1], secondBase[1]);
+        values = new ObservableCollection<LatticePoint>();
+        values = lattice.ReturnLatticePoints();
+        await chart.Refresh();
+    }
+
+    public async Task basisReduction()
+    {
+        await Task.Run(() => lattice.BasisReductionCheck());
+        firstBaseReduced[1] = lattice.baseX;
+        secondBaseReduced[1] = lattice.baseY;
+    }
+
+}
