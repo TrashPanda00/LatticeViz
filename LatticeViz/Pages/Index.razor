@@ -1,19 +1,27 @@
 ﻿@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Inputs
 @using LatticeViz.Model
 @using System.Collections.ObjectModel
 @inject NavigationManager NavigationManager
 @page "/"
 
 <PageTitle>Lattice Visualization</PageTitle>
+<h3>Lattice Basis</h3>
+<h4>b1 = (@b1x,@b1y) and b2 = (@b2x,@b2y)</h4>
 
-<h3>Hello,World!</h3>
-<input type="text" @bind="firstBase[1].x" placeholder="X"/>
-<input type="text" @bind="firstBase[1].y" placeholder="Y"/>
-<input type="text" @bind="secondBase[1].x" placeholder="X"/>
-<input type="text" @bind="secondBase[1].y" placeholder="Y"/>
-<input type="button" @onclick="() => basisChangedAsync()"/>
-<input type="button" @onclick="() => basisReduction()"/>
+<h3>Reduced Lattice Basis</h3>
+<h4>b1 = (@rb1x,@rb1y) and b2 = (@rb2x,@rb2y)</h4>
+<label>X</label>
+<SfNumericTextBox TValue="int" @bind-Value="@b1x" Max="15" Min="-15"></SfNumericTextBox>
+<label>Y</label>
+<SfNumericTextBox TValue="int" @bind-Value="@b1y" Max="15" Min="-15"></SfNumericTextBox>
+<label>X</label>
+<SfNumericTextBox TValue="int" @bind-Value="@b2x" Max="15" Min="-15"></SfNumericTextBox>
+<label>Y</label>
+<SfNumericTextBox TValue="int" @bind-Value="@b2y" Max="15" Min="-15"></SfNumericTextBox>
+<button type="submit" @onclick="() => basisChangedAsync()">COMPUTE</button>
+<button type="submit" @onclick="() => refresh()">REFRESH</button>
 <div class="control-section" align='center'>
     <SfChart @ref="chart" id="container" Width="@Width" Height="@Height">
         <ChartArea>
@@ -65,6 +73,8 @@
 @code {
     public SfChart chart;
     Lattice lattice;
+    int b1x, b1y, b2x, b2y;
+    int rb1x, rb1y, rb2x, rb2y;
     public ObservableCollection<LatticePoint> values = new ObservableCollection<LatticePoint>();
 
     public List<LatticePoint> origin = new List<LatticePoint>()
@@ -101,23 +111,44 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Lattice lattice = new Lattice(new LatticePoint(4, 1), new LatticePoint(1, 2));
-        // values = lattice.ReturnLatticePoints();
+     
     }
 
     public async Task basisChangedAsync()
     {
-        lattice = new Lattice(firstBase[1], secondBase[1]);
+        lattice = new Lattice(new LatticePoint(b1x,b1y), new LatticePoint(b2x,b2y));
+        firstBase[1].x = b1x;
+        firstBase[1].y = b1y; 
+        secondBase[1].x = b2x; 
+        secondBase[1].y = b2y;
+        await Task.Run(() => lattice.BasisReductionCheck());
+        rb1x = lattice.baseX.x;
+        rb1y = lattice.baseX.y;
+        rb2x = lattice.baseY.x;
+        rb2y = lattice.baseY.y;
+        firstBaseReduced[1].x = rb1x;
+        firstBaseReduced[1].y = rb1y; 
+        secondBaseReduced[1].x = rb2x; 
+        secondBaseReduced[1].y = rb2y;
         values = new ObservableCollection<LatticePoint>();
         values = lattice.ReturnLatticePoints();
         await chart.Refresh();
     }
 
-    public async Task basisReduction()
+    public void refresh()
     {
-        await Task.Run(() => lattice.BasisReductionCheck());
-        firstBaseReduced[1] = lattice.baseX;
-        secondBaseReduced[1] = lattice.baseY;
+        b1x = 0;
+        b1y = 0;
+        b2x = 0;
+        b2y = 0;
+        rb1x = 0;
+        rb1y = 0;
+        rb2x = 0;
+        rb2y = 0;
+        firstBase[1] = new LatticePoint(0, 0);
+        secondBase[1] = new LatticePoint(0, 0);
+        firstBaseReduced[1] = new LatticePoint(0, 0);
+        secondBaseReduced[1] = new LatticePoint(0, 0);
+        values = new ObservableCollection<LatticePoint>();
     }
-
 }
