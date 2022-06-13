@@ -119,7 +119,7 @@
 
     public List<ArbitraryPoint> arbitraryPoint = new List<ArbitraryPoint>()
     {
-        new ArbitraryPoint(0, 0)
+        new ArbitraryPoint(20, 20)
     };
 
     public ObservableCollection<LatticePoint> firstBase = new ObservableCollection<LatticePoint>()
@@ -152,6 +152,8 @@
     public async Task basisChangedAsync()
     {
         lattice = new Lattice(new LatticePoint(b1x, b1y), new LatticePoint(b2x, b2y));
+        arbitraryPoint[0].x = 20;
+        arbitraryPoint[0].y = 20;
         firstBase[1].x = b1x;
         firstBase[1].y = b1y;
         secondBase[1].x = b2x;
@@ -189,7 +191,7 @@
         await chart.Refresh();
     }
 
-    public void refresh()
+    public async Task refresh()
     {
         b1x = 0;
         b1y = 0;
@@ -199,11 +201,16 @@
         rb1y = 0;
         rb2x = 0;
         rb2y = 0;
+        arbitraryPoint[0].x = 20;
+        arbitraryPoint[0].y = 20;
+        arbitrary[0] = new ArbitraryPoint(0, 0);
+        arbitrary[1] = new ArbitraryPoint(0, 0);
         firstBase[1] = new LatticePoint(0, 0);
         secondBase[1] = new LatticePoint(0, 0);
         firstBaseReduced[1] = new LatticePoint(0, 0);
         secondBaseReduced[1] = new LatticePoint(0, 0);
         values = new ObservableCollection<LatticePoint>();
+        await chart.Refresh();
     }
 
 }
