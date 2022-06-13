@@ -36,12 +36,12 @@
         <ChartArea>
             <ChartAreaBorder Width="0"></ChartAreaBorder>
         </ChartArea>
-        <ChartPrimaryXAxis Minimum="-15" Maximum="15" Interval="1" Title="X" RangePadding="ChartRangePadding.Normal">
+        <ChartPrimaryXAxis Minimum="-16" Maximum="16" Interval="1" RangePadding="ChartRangePadding.Additional">
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             <ChartAxisMajorGridLines Width="1" Color="#d4d4d4"/>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Minimum="-15" Maximum="15" Interval="1" Title="Y" RangePadding="ChartRangePadding.Normal">
+        <ChartPrimaryYAxis Minimum="-16" Maximum="16" Interval="1" RangePadding="ChartRangePadding.Additional" LabelIntersectAction="LabelIntersectAction.Rotate90">
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             <ChartAxisMajorGridLines Width="1" Color="#d4d4d4"/>
@@ -151,9 +151,11 @@
 
     public async Task basisChangedAsync()
     {
-        lattice = new Lattice(new LatticePoint(b1x, b1y), new LatticePoint(b2x, b2y));
+        await Task.Run(() => lattice = new Lattice(new LatticePoint(b1x, b1y), new LatticePoint(b2x, b2y)));
         arbitraryPoint[0].x = 20;
         arbitraryPoint[0].y = 20;
+        arbitrary[0] = new ArbitraryPoint(0, 0);
+        arbitrary[1] = new ArbitraryPoint(0, 0);
         firstBase[1].x = b1x;
         firstBase[1].y = b1y;
         secondBase[1].x = b2x;
@@ -168,7 +170,7 @@
         secondBaseReduced[1].x = rb2x;
         secondBaseReduced[1].y = rb2y;
         values = new ObservableCollection<LatticePoint>();
-        values = lattice.ReturnLatticePoints();
+        await Task.Run(() => values = lattice.ReturnLatticePoints());
         await chart.Refresh();
     }
 
@@ -189,6 +191,20 @@
             arbitrary[0].y = firstBaseReduced[1].y * Math.Round(wx, MidpointRounding.AwayFromZero) + secondBaseReduced[1].y * Math.Round(wy, MidpointRounding.AwayFromZero);
         }
         await chart.Refresh();
+    }
+
+    public async Task test()
+    {
+        for (int i = -15; i <= 15; i++)
+            for (int j = -15; j <= 15; j++)
+                for (int l = -15; l <= 15; l++)
+                    for (int y = -15; y <= 15; y++)
+                    {
+                        Console.WriteLine(i +" "+j+" "+" "+l+" "+y);
+                        Lattice test = new Lattice(new LatticePoint(i, j), new LatticePoint(l, y));
+                        test.BasisReductionCheck();
+                    }
+
     }
 
     public async Task refresh()
