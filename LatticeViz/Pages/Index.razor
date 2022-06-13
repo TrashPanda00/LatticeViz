@@ -12,16 +12,25 @@
 
 <h3>Reduced Lattice Basis</h3>
 <h4>b1 = (@rb1x,@rb1y) and b2 = (@rb2x,@rb2y)</h4>
+
+<h3>Closest Vector Problem</h3>
+<h4>Closest lattice point from (@arbitrary[1].x,@arbitrary[1].y) is (@arbitrary[0].x,@arbitrary[0].y)</h4>
+
 <label>X</label>
-<SfNumericTextBox TValue="int" @bind-Value="@b1x" Max="15" Min="-15"></SfNumericTextBox>
+<SfNumericTextBox TValue="int" @bind-Value="@b1x" Max="15" Min="-15" Width="100px"></SfNumericTextBox>
 <label>Y</label>
-<SfNumericTextBox TValue="int" @bind-Value="@b1y" Max="15" Min="-15"></SfNumericTextBox>
+<SfNumericTextBox TValue="int" @bind-Value="@b1y" Max="15" Min="-15" Width="100px"></SfNumericTextBox>
 <label>X</label>
-<SfNumericTextBox TValue="int" @bind-Value="@b2x" Max="15" Min="-15"></SfNumericTextBox>
+<SfNumericTextBox TValue="int" @bind-Value="@b2x" Max="15" Min="-15" Width="100px"></SfNumericTextBox>
 <label>Y</label>
-<SfNumericTextBox TValue="int" @bind-Value="@b2y" Max="15" Min="-15"></SfNumericTextBox>
-<button type="submit" @onclick="() => basisChangedAsync()">COMPUTE</button>
-<button type="submit" @onclick="() => refresh()">REFRESH</button>
+<SfNumericTextBox TValue="int" @bind-Value="@b2y" Max="15" Min="-15" Width="100px"></SfNumericTextBox>
+<button class="btn btn-primary" type="submit" @onclick="() => basisChangedAsync()">Compute</button>
+<button class="btn btn-danger" type="submit" @onclick="() => refresh()">Clear</button>
+<label>Coefficient for b1</label>
+<SfNumericTextBox TValue="double" @bind-Value="@wx" Max="15" Min="-15" Width="100px"></SfNumericTextBox>
+<label>Coefficient for b2</label>
+<SfNumericTextBox TValue="double" @bind-Value="@wy" Max="15" Min="-15" Width="100px"></SfNumericTextBox>
+<button class="btn btn-primary" type="submit" @onclick="() => computeArbitraryPoint()">Compute</button>
 <div class="control-section" align='center'>
     <SfChart @ref="chart" id="container" Width="@Width" Height="@Height">
         <ChartArea>
@@ -40,41 +49,61 @@
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartLegendSettings Visible="true" EnableHighlight="true"></ChartLegendSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@values" Name="Value" XName="x" Width="1"
+            <ChartSeries DataSource="@values" Name="Lattice Points" XName="x" Width="1"
                          YName="y" Type="ChartSeriesType.Scatter">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 <ChartMarker Height="10" Width="10" Shape="ChartShape.Circle">
                 </ChartMarker>
             </ChartSeries>
             <ChartSeries DataSource="@origin" Name="Origin" XName="x" Width="1"
                          YName="y" Type="ChartSeriesType.Scatter" Fill="#8f3131">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Circle" Fill="#8f3131">
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@firstBase" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="#8f3131" >
+            <ChartSeries DataSource="@arbitrary" XName="x" Width="1"
+                         YName="y" Type="ChartSeriesType.Line" Fill="green">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                <ChartMarker Visible="false" Height="10" Width="10" Shape="ChartShape.Circle" Fill="green">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@arbitraryPoint" Name="Arbitrary Point" XName="x" Width="1"
+                         YName="y" Type="ChartSeriesType.Scatter" Fill="green">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Circle" Fill="green">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@firstBase" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="#8f3131">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 <ChartMarker Visible="false" Height="10" Width="10" IsFilled="true">
                 </ChartMarker>
             </ChartSeries>
             <ChartSeries DataSource="@secondBase" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="#8f3131">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
                 <ChartMarker Visible="false" Height="10" Width="10" IsFilled="true">
                 </ChartMarker>
             </ChartSeries>
-            <ChartSeries DataSource="@firstBaseReduced" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="blue" >
-                            <ChartMarker Visible="false" Height="10" Width="10" IsFilled="true">
-                            </ChartMarker>
-                        </ChartSeries>
-                        <ChartSeries DataSource="@secondBaseReduced" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="blue">
-                                        <ChartMarker Visible="false" Height="10" Width="10" IsFilled="true">
-                                        </ChartMarker>
-                                    </ChartSeries>
+            <ChartSeries DataSource="@firstBaseReduced" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="blue">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                <ChartMarker Visible="false" Height="10" Width="10" IsFilled="true">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@secondBaseReduced" XName="x" YName="y" Type="ChartSeriesType.Line" Fill="blue">
+                <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                <ChartMarker Visible="false" Height="10" Width="10" IsFilled="true">
+                </ChartMarker>
+            </ChartSeries>
         </ChartSeriesCollection>
     </SfChart>
 </div>
 
 @code {
     public SfChart chart;
+    bool visibleArbitrary = false;
     Lattice lattice;
     int b1x, b1y, b2x, b2y;
     int rb1x, rb1y, rb2x, rb2y;
+    double wx, wy;
     public ObservableCollection<LatticePoint> values = new ObservableCollection<LatticePoint>();
 
     public List<LatticePoint> origin = new List<LatticePoint>()
@@ -82,44 +111,50 @@
         new LatticePoint(0, 0)
     };
 
+    public List<ArbitraryPoint> arbitrary = new List<ArbitraryPoint>()
+    {
+        new ArbitraryPoint(0, 0),
+        new ArbitraryPoint(0, 0)
+    };
+
+    public List<ArbitraryPoint> arbitraryPoint = new List<ArbitraryPoint>()
+    {
+        new ArbitraryPoint(0, 0)
+    };
+
     public ObservableCollection<LatticePoint> firstBase = new ObservableCollection<LatticePoint>()
     {
-        new LatticePoint(0,0),
-        new LatticePoint(0,0)
+        new LatticePoint(0, 0),
+        new LatticePoint(0, 0)
     };
-    
+
     public ObservableCollection<LatticePoint> secondBase = new ObservableCollection<LatticePoint>()
     {
-        new LatticePoint(0,0),
-        new LatticePoint(0,0)
+        new LatticePoint(0, 0),
+        new LatticePoint(0, 0)
     };
-    
+
     public ObservableCollection<LatticePoint> firstBaseReduced = new ObservableCollection<LatticePoint>()
     {
-        new LatticePoint(0,0),
-        new LatticePoint(0,0)
+        new LatticePoint(0, 0),
+        new LatticePoint(0, 0)
     };
-    
+
     public ObservableCollection<LatticePoint> secondBaseReduced = new ObservableCollection<LatticePoint>()
     {
-        new LatticePoint(0,0),
-        new LatticePoint(0,0)
+        new LatticePoint(0, 0),
+        new LatticePoint(0, 0)
     };
-    
+
     public string Width { get; set; } = "700px";
     public string Height { get; set; } = "700px";
 
-    protected override async Task OnInitializedAsync()
-    {
-     
-    }
-
     public async Task basisChangedAsync()
     {
-        lattice = new Lattice(new LatticePoint(b1x,b1y), new LatticePoint(b2x,b2y));
+        lattice = new Lattice(new LatticePoint(b1x, b1y), new LatticePoint(b2x, b2y));
         firstBase[1].x = b1x;
-        firstBase[1].y = b1y; 
-        secondBase[1].x = b2x; 
+        firstBase[1].y = b1y;
+        secondBase[1].x = b2x;
         secondBase[1].y = b2y;
         await Task.Run(() => lattice.BasisReductionCheck());
         rb1x = lattice.baseX.x;
@@ -127,11 +162,30 @@
         rb2x = lattice.baseY.x;
         rb2y = lattice.baseY.y;
         firstBaseReduced[1].x = rb1x;
-        firstBaseReduced[1].y = rb1y; 
-        secondBaseReduced[1].x = rb2x; 
+        firstBaseReduced[1].y = rb1y;
+        secondBaseReduced[1].x = rb2x;
         secondBaseReduced[1].y = rb2y;
         values = new ObservableCollection<LatticePoint>();
         values = lattice.ReturnLatticePoints();
+        await chart.Refresh();
+    }
+
+    public async Task computeArbitraryPoint()
+    {
+        arbitrary[1].x = firstBaseReduced[1].x * wx + secondBaseReduced[1].x * wy;
+        arbitrary[1].y = firstBaseReduced[1].y * wx + secondBaseReduced[1].y * wy;
+        arbitraryPoint[0].x = arbitrary[1].x;
+        arbitraryPoint[0].y = arbitrary[1].y;
+        if ((wx > 0 && wy > 0) || (wx < 0 && wy < 0))
+        {
+            arbitrary[0].x = firstBaseReduced[1].x * Math.Round(wx, MidpointRounding.AwayFromZero) + secondBaseReduced[1].x * Math.Round(wy, MidpointRounding.ToZero);
+            arbitrary[0].y = firstBaseReduced[1].y * Math.Round(wx, MidpointRounding.AwayFromZero) + secondBaseReduced[1].y * Math.Round(wy, MidpointRounding.ToZero);
+        }
+        else
+        {
+            arbitrary[0].x = firstBaseReduced[1].x * Math.Round(wx, MidpointRounding.AwayFromZero) + secondBaseReduced[1].x * Math.Round(wy, MidpointRounding.AwayFromZero);
+            arbitrary[0].y = firstBaseReduced[1].y * Math.Round(wx, MidpointRounding.AwayFromZero) + secondBaseReduced[1].y * Math.Round(wy, MidpointRounding.AwayFromZero);
+        }
         await chart.Refresh();
     }
 
@@ -151,4 +205,5 @@
         secondBaseReduced[1] = new LatticePoint(0, 0);
         values = new ObservableCollection<LatticePoint>();
     }
+
 }
