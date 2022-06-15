@@ -31,7 +31,7 @@ main[b-agoghk8kyu] {
         text-overflow: ellipsis;
     }
 
-@media (max-width: 640.98px) {
+@media (max-width: 1430px) {
     .top-row:not(.auth)[b-agoghk8kyu] {
         display: none;
     }
@@ -45,7 +45,7 @@ main[b-agoghk8kyu] {
     }
 }
 
-@media (min-width: 641px) {
+@media (min-width: 1430px) {
     .page[b-agoghk8kyu] {
         flex-direction: row;
     }

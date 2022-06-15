@@ -32,3 +32,4 @@ C:\Users\bogda\RiderProjects\LatticeViz\LatticeViz\bin\Debug\net6.0\Syncfusion.E
 C:\Users\bogda\RiderProjects\LatticeViz\LatticeViz\bin\Debug\net6.0\Syncfusion.Licensing.dll
 C:\Users\bogda\RiderProjects\LatticeViz\LatticeViz\bin\Debug\net6.0\Syncfusion.PdfExport.Net.dll
 C:\Users\bogda\RiderProjects\LatticeViz\LatticeViz\bin\Debug\net6.0\Syncfusion.Blazor.Themes.dll
+C:\Users\bogda\RiderProjects\LatticeViz\LatticeViz\obj\Debug\net6.0\scopedcss\Pages\Index.razor.rz.scp.css
