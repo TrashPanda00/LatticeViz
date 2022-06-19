@@ -19,10 +19,6 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/bogda/RiderProjects/LatticeViz/LatticeViz/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/bogda/RiderProjects/LatticeViz/LatticeViz/Pages/FetchData.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -38,6 +34,10 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/bogda/RiderProjects/LatticeViz/LatticeViz/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-d0e40yu93y
+
+[C:/Users/bogda/RiderProjects/LatticeViz/LatticeViz/Pages/Paper.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFwZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ec037qj1xn
 
 [C:/Users/bogda/RiderProjects/LatticeViz/LatticeViz/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=

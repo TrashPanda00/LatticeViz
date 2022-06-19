@@ -11,11 +11,13 @@
     <div class="p-0 flex-shrink-1">
         <h4>
             <u>
-                <b>Step 1</b>
+                <b>Visualising lattice creation</b>
             </u>
         </h4>
+        <br/>
         <h5>Input the lattice bases <b>b<sub>1</sub> = (@b1x,@b1y)</b> and <b>b<sub>2</sub> = (@b2x,@b2y)</b></h5>
         <h5>The reduced lattice bases are <b>b'<sub>1</sub> = (@rb1x,@rb1y)</b> and <b>b'<sub>2</sub> = (@rb2x,@rb2y)</b></h5>
+        <br/>
         <div class="container">
             <div class="row top5">
                 <div class="col-9">
@@ -24,11 +26,11 @@
                             <label>Input <b>b<sub>1</sub></b>: </label>
                         </div>
                         <div class="col-4">
-                            <label><b>x</b></label>
+                            <label><b>X</b></label>
                             <SfNumericTextBox TValue="int" @bind-Value="@b1x" Max="15" Min="-15" Width="45px" ShowSpinButton="false"></SfNumericTextBox>
                         </div>
                         <div class="col-4">
-                            <label><b>y</b></label>
+                            <label><b>Y</b></label>
                             <SfNumericTextBox TValue="int" @bind-Value="@b1y" Max="15" Min="-15" Width="45px" ShowSpinButton="false"></SfNumericTextBox>
                         </div>
                     </div>
@@ -51,45 +53,48 @@
                 </div>
             </div>
         </div>
+        <br/>
         <h4>
             <u>
-                <b>Step 2</b>
+                <b>Visualising Babai's Algorithm</b>
             </u>
         </h4>
-        <h5>Select an arbitrary point <b>w = @wx<span>&#183;</span>b'<sub>1</sub> + @wy<span>&#183;</span>b'<sub>2</sub> = (@arbitrary[1].x,@arbitrary[1].y)</b></h5>
-        <h5><b>w = @getCoeffs()[1]<span>&#183;</span>b<sub>1</sub> + @getCoeffs()[0]<span>&#183;</span>b<sub>2</sub> = (@arbitrary[1].x,@arbitrary[1].y)</b></h5>
-        <h5>The closest point within the lattice from <b>w</b> is <b>(@arbitrary[0].x,@arbitrary[0].y)</b></h5>
+        <br/>
+        <h5>Select an arbitrary point <b>w = (@arbitraryP[1].x,@arbitraryP[1].y)</b></h5>
+        <br/>
+        <h5><b>w = @Math.Round(px,2)<span>&#183;</span>b<sub>1</sub> + @Math.Round(py,2)<span>&#183;</span>b<sub>2</sub> = (@arbitraryP[1].x,@arbitraryP[1].y)</b></h5>
+        <h5><b>w = @Math.Round(qx,2)<span>&#183;</span>b'<sub>1</sub> + @Math.Round(qy,2)<span>&#183;</span>b'<sub>2</sub> = (@arbitraryQ[1].x,@arbitraryQ[1].y)</b></h5>
+        <br/>
+        <h5>Using <b>b<sub>1</sub></b> and <b>b<sub>2</sub></b> the closest point is <b>(@arbitraryP[0].x,@arbitraryP[0].y)</b></h5>
+        <h5>Using <b>b'<sub>1</sub></b> and <b>b'<sub>2</sub></b> the closest point is <b>(@arbitraryQ[0].x,@arbitraryQ[0].y)</b></h5>
+        <br/>
         <div class="container">
             <div class="row top5">
                 <div class="col-3">
-                    <label>Input: </label>
+                    <label>Input w: </label>
                 </div>
                 <div class="col-3">
                     <label>
-                        <b>c<sub>1</sub></b>
+                        <b>X</b>
                     </label>
                     <SfNumericTextBox TValue="double" @bind-Value="@wx" Max="15" Min="-15" Width="55px" ShowSpinButton="false"></SfNumericTextBox>
                 </div>
                 <div class="col-3">
                     <label>
-                        <b>c<sub>2</sub></b>
+                        <b>Y</b>
                     </label>
                     <SfNumericTextBox TValue="double" @bind-Value="@wy" Max="15" Min="-15" Width="55px" ShowSpinButton="false"></SfNumericTextBox>
                 </div>
                 <div class="col-3">
-                    <button class="btn btn-primary" type="submit" @onclick="() => computeArbitraryPoint(firstBaseReduced,secondBaseReduced,wx,wy)">Compute</button>
+                    <button class="btn btn-primary" type="submit" @onclick="() => computeArbitraryPoint()">Compute</button>
+                </div>
+            </div>
+            <div class="row top5">
+                <div class="col-12 text-center">
+                    <button class="btn btn-danger" type="submit" @onclick="() => refresh()">Clear Everything</button>
                 </div>
             </div>
         </div>
-        <h4>
-                    <u>
-                        <b>Step 3</b>
-                    </u>
-                </h4>
-        <h5>The lattice bases <b>b<sub>1</sub></b> and <b>b<sub>2</sub></b> are: </h5>
-        <h5>The reduced lattice bases <b>b<sub>1</sub></b> and <b>b<sub>2</sub></b> are: </h5>
-        <button class="btn btn-primary" type="submit" @onclick="() => computeArbitraryPoint(firstBase,secondBase,getCoeffs()[1],getCoeffs()[0])">Compute</button>
-        <button class="btn btn-danger" type="submit" @onclick="() => refresh()">Clear Everything</button>
     </div>
     <div class="p-0" align='center'>
         <div class="controls">
@@ -122,12 +127,18 @@
                         <ChartMarker Visible="true" Height="10" Width="10" Shape="ChartShape.Circle" Fill="#8f3131">
                         </ChartMarker>
                     </ChartSeries>
-                    <ChartSeries DataSource="@arbitrary" XName="x" Width="1"
-                                 YName="y" Type="ChartSeriesType.Line" Fill="green">
+                    <ChartSeries DataSource="@arbitraryP" XName="x" Width="1"
+                                 YName="y" Type="ChartSeriesType.Line" Fill="#8f3131">
                         <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
-                        <ChartMarker Visible="false" Height="10" Width="10" Shape="ChartShape.Circle" Fill="green">
+                        <ChartMarker Visible="false" Height="10" Width="10" Shape="ChartShape.Circle" Fill="#8f3131">
                         </ChartMarker>
                     </ChartSeries>
+                    <ChartSeries DataSource="@arbitraryQ" XName="x" Width="1"
+                                                     YName="y" Type="ChartSeriesType.Line" Fill="green">
+                                            <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                                            <ChartMarker Visible="false" Height="10" Width="10" Shape="ChartShape.Circle" Fill="green">
+                                            </ChartMarker>
+                                        </ChartSeries>
                     <ChartSeries DataSource="@arbitraryPoint" Name="Arbitrary Point" XName="x" Width="1"
                                  YName="y" Type="ChartSeriesType.Scatter" Fill="green">
                         <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
@@ -168,6 +179,7 @@
     int b1x, b1y, b2x, b2y;
     int rb1x, rb1y, rb2x, rb2y;
     double wx, wy;
+    double px, py, qx, qy;
     public ObservableCollection<LatticePoint> values = new ObservableCollection<LatticePoint>();
 
     public List<LatticePoint> origin = new List<LatticePoint>()
@@ -175,7 +187,13 @@
         new LatticePoint(0, 0)
     };
 
-    public List<ArbitraryPoint> arbitrary = new List<ArbitraryPoint>()
+    public List<ArbitraryPoint> arbitraryP = new List<ArbitraryPoint>()
+    {
+        new ArbitraryPoint(0, 0),
+        new ArbitraryPoint(0, 0)
+    };
+    
+    public List<ArbitraryPoint> arbitraryQ = new List<ArbitraryPoint>()
     {
         new ArbitraryPoint(0, 0),
         new ArbitraryPoint(0, 0)
@@ -220,8 +238,10 @@
         wy = 0;
         arbitraryPoint[0].x = 20;
         arbitraryPoint[0].y = 20;
-        arbitrary[0] = new ArbitraryPoint(0, 0);
-        arbitrary[1] = new ArbitraryPoint(0, 0);
+        arbitraryP[0] = new ArbitraryPoint(0, 0);
+        arbitraryP[1] = new ArbitraryPoint(0, 0);
+        arbitraryQ[0] = new ArbitraryPoint(0, 0);
+        arbitraryQ[1] = new ArbitraryPoint(0, 0);
         firstBase[1].x = b1x;
         firstBase[1].y = b1y;
         secondBase[1].x = b2x;
@@ -240,40 +260,26 @@
         await chart.Refresh();
     }
 
-    public async Task computeArbitraryPoint(ObservableCollection<LatticePoint> firstBaseReduced, ObservableCollection<LatticePoint> secondBaseReduced, double wx, double wy)
+    public async Task computeArbitraryPoint()
     {
-        arbitrary[1].x = firstBaseReduced[1].x * wx + secondBaseReduced[1].x * wy;
-        arbitrary[1].y = firstBaseReduced[1].y * wx + secondBaseReduced[1].y * wy;
-        arbitraryPoint[0].x = arbitrary[1].x;
-        arbitraryPoint[0].y = arbitrary[1].y;
-        if ((wx > 0 && wy > 0) || (wx < 0 && wy < 0))
+        arbitraryP[1].x = wx;
+        arbitraryP[1].y = wy;
+        arbitraryQ[1].x = wx;
+        arbitraryQ[1].y = wy;
+        arbitraryPoint[0].x = wx;
+        arbitraryPoint[0].y = wy;
+        if(firstBase[1].x * secondBase[1].y != firstBase[1].y * secondBase[1].x)
         {
-            if (Math.Abs(wx) > Math.Abs(wy))
-            {
-                arbitrary[0].x = firstBaseReduced[1].x * Math.Round(wx, MidpointRounding.AwayFromZero) + secondBaseReduced[1].x * Math.Round(wy, MidpointRounding.ToEven);
-                arbitrary[0].y = firstBaseReduced[1].y * Math.Round(wx, MidpointRounding.AwayFromZero) + secondBaseReduced[1].y * Math.Round(wy, MidpointRounding.ToEven);
-            }
-            else
-            {
-                arbitrary[0].x = firstBaseReduced[1].x * Math.Round(wx, MidpointRounding.ToEven) + secondBaseReduced[1].x * Math.Round(wy, MidpointRounding.AwayFromZero);
-                arbitrary[0].y = firstBaseReduced[1].y * Math.Round(wx, MidpointRounding.ToEven) + secondBaseReduced[1].y * Math.Round(wy, MidpointRounding.AwayFromZero);
-            }
-
+            py = (firstBase[1].y * arbitraryP[1].x - arbitraryP[1].y * firstBase[1].x) / (secondBase[1].x * firstBase[1].y - firstBase[1].x * secondBase[1].y);
+            px = (secondBase[1].y * arbitraryP[1].x - arbitraryP[1].y * secondBase[1].x) / (firstBase[1].x * secondBase[1].y - secondBase[1].x * firstBase[1].y);
+            qy = (firstBaseReduced[1].y * arbitraryQ[1].x - arbitraryQ[1].y * firstBaseReduced[1].x) / (secondBaseReduced[1].x * firstBaseReduced[1].y - firstBaseReduced[1].x * secondBaseReduced[1].y);
+            qx = (secondBaseReduced[1].y * arbitraryQ[1].x - arbitraryQ[1].y * secondBaseReduced[1].x) / (firstBaseReduced[1].x * secondBaseReduced[1].y - secondBaseReduced[1].x * firstBaseReduced[1].y);
+            arbitraryP[0].x = firstBase[1].x * Math.Floor(px + 0.5) + secondBase[1].x * Math.Floor(py + 0.5);
+            arbitraryP[0].y = firstBase[1].y * Math.Floor(px + 0.5) + secondBase[1].y * Math.Floor(py + 0.5);
+            arbitraryQ[0].x = firstBaseReduced[1].x * Math.Floor(qx + 0.5) + secondBaseReduced[1].x * Math.Floor(qy + 0.5);
+            arbitraryQ[0].y = firstBaseReduced[1].y * Math.Floor(qx + 0.5) + secondBaseReduced[1].y * Math.Floor(qy + 0.5);
+            await chart.Refresh();
         }
-        else
-        {
-            arbitrary[0].x = firstBaseReduced[1].x * Math.Round(wx, MidpointRounding.AwayFromZero) + secondBaseReduced[1].x * Math.Round(wy, MidpointRounding.AwayFromZero);
-            arbitrary[0].y = firstBaseReduced[1].y * Math.Round(wx, MidpointRounding.AwayFromZero) + secondBaseReduced[1].y * Math.Round(wy, MidpointRounding.AwayFromZero);
-        }
-        await chart.Refresh();
-    }
-
-    public List<double> getCoeffs()
-    {
-        List<double> result = new List<double>();
-        result.Add((firstBase[1].y * arbitrary[1].x - arbitrary[1].y * firstBase[1].x) / (secondBase[1].x * firstBase[1].y - firstBase[1].x * secondBase[1].y));
-        result.Add((arbitrary[1].x - result[0] * secondBase[1].x) / firstBase[1].x);
-        return result;
     }
 
     public async Task refresh()
@@ -290,8 +296,10 @@
         wy = 0;
         arbitraryPoint[0].x = 20;
         arbitraryPoint[0].y = 20;
-        arbitrary[0] = new ArbitraryPoint(0, 0);
-        arbitrary[1] = new ArbitraryPoint(0, 0);
+        arbitraryP[0] = new ArbitraryPoint(0, 0);
+        arbitraryP[1] = new ArbitraryPoint(0, 0);
+        arbitraryQ[0] = new ArbitraryPoint(0, 0);
+        arbitraryQ[1] = new ArbitraryPoint(0, 0);
         firstBase[1] = new LatticePoint(0, 0);
         secondBase[1] = new LatticePoint(0, 0);
         firstBaseReduced[1] = new LatticePoint(0, 0);
