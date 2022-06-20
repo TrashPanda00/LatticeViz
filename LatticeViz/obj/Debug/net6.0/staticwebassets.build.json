@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "EKajKiKc8e2LWOtzbsh41Esav5uzQBoqIFWxAiCuv0w=",
+  "Hash": "E5hCHx3bGJcfvIIFmIJkC3YZ0NXMAHLkzYHm8bHjqBQ=",
   "Source": "LatticeViz",
   "BasePath": "_content/LatticeViz",
   "Mode": "Default",
@@ -2344,23 +2344,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
-    },
-    {
-      "Identity": "C:\\Users\\bogda\\RiderProjects\\LatticeViz\\LatticeViz\\wwwroot\\LatticeBasedCryptography.pdf",
-      "SourceId": "LatticeViz",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\bogda\\RiderProjects\\LatticeViz\\LatticeViz\\wwwroot\\",
-      "BasePath": "_content/LatticeViz",
-      "RelativePath": "LatticeBasedCryptography.pdf",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\LatticeBasedCryptography.pdf"
     }
   ]
 }

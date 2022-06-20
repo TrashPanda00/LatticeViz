@@ -11,4 +11,8 @@
       <PackageReference Include="Syncfusion.Blazor.Themes" Version="20.1.0.59" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Data" />
+    </ItemGroup>
+
 </Project>
